@@ -22,7 +22,7 @@ public class EmployeeService {
 
 //    @Value("${addressService.base.url}")
 //    private String addressBaseUrl;
-
+//test
     public EmployeeService(@Value("${addressService.base.url}") String addressBaseUrl,
                            RestTemplateBuilder builder) {
         System.out.println(addressBaseUrl);
