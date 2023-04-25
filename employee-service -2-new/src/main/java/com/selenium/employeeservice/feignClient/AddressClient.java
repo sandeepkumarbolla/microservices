@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
-//http://localhost:8081/address-app/api/address/6
+//http://localhost:8081/address-app/api/address/6 gdgerger
 @FeignClient(name = "address-service",path="/address-app/api/")
 @RibbonClient(name = "address-service")
 public interface AddressClient {//proxy
