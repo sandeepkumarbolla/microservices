@@ -26,6 +26,8 @@ public class AddressController {
         Address address;
         AddressResponse addressResponse = null;
         addressResponse =addressService.findAddressEmployeeById(employee_id);
+        System.out.println("finding address for employee with id="+employee_id);
+        System.out.println("running in server no 1");
         return ResponseEntity.status(HttpStatus.OK).body(addressResponse);
     }
 

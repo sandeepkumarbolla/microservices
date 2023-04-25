@@ -1,6 +1,7 @@
 package com.selenium.employeeservice.Entity;
 
-import javax.persistence.*;
+
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "employee")

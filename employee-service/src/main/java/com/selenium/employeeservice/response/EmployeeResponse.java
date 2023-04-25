@@ -1,6 +1,5 @@
 package com.selenium.employeeservice.response;
 
-import javax.persistence.Column;
 
 public class EmployeeResponse {
 
