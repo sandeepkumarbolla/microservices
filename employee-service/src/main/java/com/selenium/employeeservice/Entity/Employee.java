@@ -17,7 +17,6 @@ public class Employee {
     private String email;
     @Column(name = "bloodgroup")
     private String bloodGroup;
-
     public Employee() {
     }
 

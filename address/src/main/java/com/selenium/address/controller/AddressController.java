@@ -21,6 +21,15 @@ public class AddressController {
     AddressRepo addressRepo;
     @Autowired
     AddressService addressService;
+
+
+    @GetMapping("/alladdress")
+    public ResponseEntity<List<AddressResponse>> getAddresses(){
+        List<AddressResponse> addressResponses=addressService.getAllAddresses();
+        return ResponseEntity.status(HttpStatus.OK).body(addressResponses);
+    }
+
+
     @GetMapping("address/{employee_id}")
     public ResponseEntity<AddressResponse> getAddressByEmployeeId(@PathVariable("employee_id") int employee_id){
         Address address;

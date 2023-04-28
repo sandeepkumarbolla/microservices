@@ -27,8 +27,15 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public List<Employee> getEmployeesDetails(){
-        List<Employee> employeeList=employeeService.getEmployee();
-        return employeeList;
+    ResponseEntity<List<EmployeeResponse>>  getEmployeesDetails(){
+       List<EmployeeResponse> employeeResponses=employeeService.getAllEmployees();
+       return ResponseEntity.status(HttpStatus.OK).body(employeeResponses);
     }
+
+
+//    @GetMapping("/employees")
+//    ResponseEntity<List<Employee>> getEmployeeDetails(){
+//        List<Employee> employeeList=employeeService.getEmployees();
+//        return ResponseEntity.status(HttpStatus.OK).body(employeeList);
+//    }
 }

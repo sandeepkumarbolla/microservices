@@ -2,6 +2,7 @@ package com.selenium.employeeservice.service;
 
 import com.selenium.employeeservice.Entity.Employee;
 import com.selenium.employeeservice.Repository.EmployeeRepository;
+import com.selenium.employeeservice.openFeignclient.AddressClient;
 import com.selenium.employeeservice.response.AddressResponse;
 import com.selenium.employeeservice.response.EmployeeResponse;
 import org.modelmapper.ModelMapper;
@@ -11,10 +12,12 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -30,6 +33,8 @@ public class EmployeeService {
     private DiscoveryClient discoveryClient;
     @Autowired
     private LoadBalancerClient loadBalancerClient;
+    @Autowired
+    private AddressClient addressClient;
 
     @Value("${addressService.base.url}")
     private String addressBaseUrl;
@@ -64,16 +69,48 @@ public class EmployeeService {
 
 
 
-        addressResponse = restTemplate.getForObject("http://ADDRESS-SERVICE/address-app/api/address/{id}",AddressResponse.class,id);
+       // addressResponse = restTemplate.getForObject("http://ADDRESS-SERVICE/address-app/api/address/{id}",AddressResponse.class,id);
+        addressResponse= addressClient.getAddressByEmployeeId(id).getBody();
         employeeResponse.setAddressResponse(addressResponse);
         return employeeResponse;
     }
 
+//    public List<Employee> getEmployees() {
+//        List<Employee> employeeList = employeeRepository.findAll();
+//        return employeeList;
+//    }
 
 
-    public List<Employee> getEmployee(){
-        List<Employee> employeeList =employeeRepository.findAll();
-        return employeeList;
+//    public List<EmployeeResponse> getEmployee(){
+//        List<Employee> employee;
+//        employee=employeeRepository.findAll();
+//        EmployeeResponse employeeResponse=Arrays.asList(modelMapper.map(e,Employee.class));
+//
+//        return employeeResponse;
+//    }
+
+
+    public List<EmployeeResponse> getAllEmployees() {
+        List<Employee> employeeList = employeeRepository.findAll();
+        List<EmployeeResponse> employeeResponses = Arrays.asList(modelMapper.map(employeeList, EmployeeResponse[].class));
+        ResponseEntity<List<AddressResponse>> addressResponses = addressClient.getAddresses();
+        List<AddressResponse> addressResponses1=addressResponses.getBody();
+
+        System.out.println(addressResponses.getBody().get(2).getState());
+        employeeResponses.forEach(employeeResponse -> {
+            System.out.println(employeeResponse.getId());
+            for (AddressResponse addressResponse:addressResponses1
+                 ) {
+                        if (addressResponse.getId()==employeeResponse.getId()){
+                            employeeResponse.setAddressResponse(addressResponse);
+                        }
+
+            }
+            //System.out.println(addressResponses.get(employeeResponse.getId()-1).getState());
+           // employeeResponse.setAddressResponse(addressResponses.get(employeeResponse.getId()-1));
+          //  employeeResponse.setAddressResponse(addressClient.getAddressByEmployeeId(employeeResponse.getId()).getBody());
+        });
+        return employeeResponses;
     }
 }
 
