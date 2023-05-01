@@ -34,9 +34,9 @@ public class EmployeeController {
     }
 
     @PostMapping("/addemp")
-    public ResponseEntity<EmployeeResponse> addEmployee(@RequestBody EmployeeResponse employeeResponse){
+    public String addEmployee(@RequestBody EmployeeResponse employeeResponse){
         employeeService.addEmployee(employeeResponse);
-        return ResponseEntity.status(HttpStatus.CREATED).body(employeeResponse);
+        return "employee added successfully";
     }
 
 

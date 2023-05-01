@@ -97,7 +97,7 @@ public class EmployeeService {
             System.out.println(employeeResponse.getId());
             for (AddressResponse addressResponse:addressResponses1
                  ) {
-                        if (addressResponse.getId()==employeeResponse.getId()){
+                        if (addressResponse.getEmployee_id()==employeeResponse.getId()){
                             employeeResponse.setAddressResponse(addressResponse);
                         }
 
