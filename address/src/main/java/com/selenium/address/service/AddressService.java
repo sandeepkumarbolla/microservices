@@ -29,4 +29,8 @@ public class AddressService {
         return addressResponses;
 
     }
+
+    public void addAddress(Address address) {
+        addressRepo.save(address);
+    }
 }

@@ -8,7 +8,6 @@ import jakarta.persistence.*;
 public class Address {
     //id,lane1 , lane2, state, zip, employee_id
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
     @Column(name = "lane1")
@@ -19,6 +18,25 @@ public class Address {
     private String state;
     @Column(name = "zip")
     private long zip;
+    @Column(name = "employee_id")
+    private int employee_id;
+
+    public Address(int id, String lane1, String lane2, String state, long zip, int employee_id) {
+        this.id = id;
+        this.lane1 = lane1;
+        this.lane2 = lane2;
+        this.state = state;
+        this.zip = zip;
+        this.employee_id = employee_id;
+    }
+
+    public int getEmployee_id() {
+        return employee_id;
+    }
+
+    public void setEmployee_id(int employee_id) {
+        this.employee_id = employee_id;
+    }
 
     public int getId() {
         return id;
@@ -57,14 +75,6 @@ public class Address {
     }
 
     public void setZip(long zip) {
-        this.zip = zip;
-    }
-
-    public Address(int id, String lane1, String lane2, String state, long zip) {
-        this.id = id;
-        this.lane1 = lane1;
-        this.lane2 = lane2;
-        this.state = state;
         this.zip = zip;
     }
 

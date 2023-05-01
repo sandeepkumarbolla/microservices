@@ -65,10 +65,6 @@ public class EmployeeService {
 //        System.out.println("context-path>>>>>>>>>>>>>>"+contextRoot);
 //        System.out.println("url>>>>>>>>>>>>>>>>>>>>>>>"+url+contextRoot);
      //   System.out.println("AddressBaseURL>>>>>>>>>>>>"+addressBaseUrl);
-
-
-
-
        // addressResponse = restTemplate.getForObject("http://ADDRESS-SERVICE/address-app/api/address/{id}",AddressResponse.class,id);
         addressResponse= addressClient.getAddressByEmployeeId(id).getBody();
         employeeResponse.setAddressResponse(addressResponse);
@@ -111,6 +107,32 @@ public class EmployeeService {
           //  employeeResponse.setAddressResponse(addressClient.getAddressByEmployeeId(employeeResponse.getId()).getBody());
         });
         return employeeResponses;
+    }
+
+    public void addEmployee(EmployeeResponse employeeResponse) {
+        AddressResponse addressResponse = employeeResponse.getAddressResponse();
+        addressResponse.setEmployee_id(employeeResponse.getId());
+        Employee employee = new Employee();
+        System.out.println("employee Id from post request>>>>"+employeeResponse.getId());
+        employee.setId(employeeResponse.getId());
+        System.out.println("assigned employee id>>>>>>>>>>>>>"+employee.getId());
+        employee.setName(employeeResponse.getName());
+        employee.setEmail(employeeResponse.getEmail());
+        employee.setBloodGroup(employeeResponse.getBloodGroup());
+        System.out.println(employee.getId()+"\n"+
+                employee.getEmail()+"\n"+
+                employee.getName());
+        System.out.println(addressResponse.getId()+"\n"+
+                addressResponse.getLane1()+"\n"+
+                addressResponse.getState()+"\n"+
+                addressResponse.getZip());
+        employeeRepository.save(employee);
+        addressClient.addAddress(addressResponse);
+//        addressResponse.setId(employeeResponse.getId());
+//        addressResponse.setLane1(employeeResponse.getAddressResponse().getLane1());
+//        addressResponse.setLane2(employeeResponse.getAddressResponse().getLane2());
+//        addressResponse.setState(employeeResponse.getAddressResponse().getState());
+//        addressResponse.setZip(employeeResponse.getAddressResponse().getZip());
     }
 }
 
